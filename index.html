@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="PWA Dasar">
+  <meta name="apple-mobile-web-app-title" content="PWA Dasar">
+  <meta name="theme-color" content="#4caf50">
+  <meta name="msapplication-navbutton-color" content="#4caf50">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="msapplication-starturl" content="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicon.ico">
+
+  <link rel="stylesheet" href="/css/materialize.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
+  <title>PWA Dasar</title>
+</head>
+<body>
+  <ul id="slide-out" class="side-nav">
+    <li><a href="offlineschedule.html">Save Schedule</a></li>
+  </ul>
+
+  <nav>
+    <div class="nav-wrapper custom-theme">
+      <ul id="nav-mobile" class="left">
+        <li><a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a></li>
+      </ul>
+    </div>
+  </nav>
+  
+    <div class="container">
+      <div id="standing">
+    <div id="preloader">
+      <div class="preloader-wrapper small active">
+        <div class="spinner-layer spinner-green-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  
+  <footer class="page-footer custom-theme">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">PWA Renaldi</h5>
+          <p class="grey-text text-lighten-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur, culpa, nam eos, quisquam aliquid non, at explicabo pariatur consequatur fugiat fuga! Rem saepe distinctio excepturi corporis, dicta hic! Ea, vel.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      © 2017 Copyright Text
+      <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="notification-update">
+    <div class="notification-wrapper">
+      <div class="text-updates">New updates are available.</div>
+      <div class="button-updates">
+        <button id="update-sw">REFRESH</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="text/javascript" src="/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/materialize.min.js"></script>
+  <script type="text/javascript" src="/js/idb.js"></script>
+  <script type="text/javascript" src="/js/app.js"></script>
+  <script type="text/javascript" src="/js/sw-controller.js"></script>
+  <script type="text/javascript" src="/js/index.js"></script>
+
+  <script type="text/javascript">
+    App.getStanding();
+    if (!('serviceWorker' in navigator)) {
+      console.log("Service worker tidak didukung browser ini.");
+    } else {
+      registerServiceWorker();
+      requestPermission();
+    }
+    // Register service worker
+    function registerServiceWorker() {
+      return navigator.serviceWorker.register('sw.js')
+        .then(function (registration) {
+          console.log('Registrasi service worker berhasil.');
+          return registration;
+        })
+        .catch(function (err) {
+          console.error('Registrasi service worker gagal.', err);
+        });
+    }
+    function requestPermission() {
+if ('Notification' in window) {
+  Notification.requestPermission().then(function (result) {
+    if (result === "denied") {
+      console.log("Fitur notifikasi tidak diijinkan.");
+      return;
+    } else if (result === "default") {
+      console.error("Pengguna menutup kotak dialog permintaan ijin.");
+      return;
+    }
+    
+    if (('PushManager' in window)) {
+    navigator.serviceWorker.getRegistration().then(function(reg) {
+        reg.pushManager.subscribe({
+            userVisibleOnly: true
+        }).then(function(sub) {
+            console.log('Berhasil melakukan subscribe dengan endpoint: ', sub.endpoint);
+        }).catch(function(e) {
+            console.error('Tidak dapat melakukan subscribe ', e);
+        });
+    });
+}
+  });
+}
+    }
+  </script>
+</body>
+</html>
