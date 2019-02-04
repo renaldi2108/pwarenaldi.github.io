@@ -18,6 +18,10 @@ precacheController.addToCacheList([
 
 precacheController.addToCacheList([
   {
+    url: 'https://renaldi2108.github.io/pwarenaldi.github.io/',
+    revision: 'asdf',
+  },
+  {
     url: 'https://renaldi2108.github.io/pwarenaldi.github.io/index.html',
     revision: 'abcd',
   }, {
@@ -65,7 +69,7 @@ self.addEventListener('push', function(event) {
   }
   var options = {
     body: body,
-    icon: 'icon-192.png',
+    icon: 'https://renaldi2108.github.io/pwarenaldi.github.io/icon-192.png',
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
