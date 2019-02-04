@@ -3,50 +3,36 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox
 
 const version = 1;
 const currentCaches = 'learningpwa-v'+version;
+let plugins = [];
+
+const precacheController = new workbox.precaching.PrecacheController();
+
+precacheController.addToCacheList([
+  '/js/jquery.min.js',
+  '/js/materialize.min.js',
+  '/js/app.js',
+  '/js/index.js',
+  '/css/materialize.min.css',
+  '/css/styles.css',
+]);
+
+precacheController.addToCacheList([
+  {
+    url: 'index.html',
+    revision: 'abcd',
+  }, {
+    url: 'schedule.html',
+    revision: '1234',
+  },
+  {
+    url: 'offlineschedule.html',
+    revision: 'qwer',
+  }
+]);
 
 self.addEventListener("install", function(event){
   console.log("install event in progress");
-  workbox.precaching.precacheAndRoute([
-    '/js/jquery.min.js',
-    '/js/materialize.min.js',
-    '/js/app.js',
-    '/js/index.js',
-    '/css/materialize.min.css',
-    '/css/styles.css',
-    {
-      url: '/index.html',
-      revision: version
-    },
-    {
-      url: '/',
-      revision: version
-    },
-    {
-      url: '/offlineschedule.html',
-      revision: version
-    },
-    {
-      url: '/schedule.html',
-      revision: version
-    }
-  ]);
-
-  // event.waitUntil(
-  //   caches.open(currentCaches).then(function(cache){
-  //     return cache.addAll([
-  //       '/js/jquery.min.js',
-  //       '/js/materialize.min.js',
-  //       '/js/app.js',
-  //       '/js/index.js',
-  //       '/css/materialize.min.css',
-  //       '/css/styles.css',
-  //       'offlineschedule.html',
-  //       'schedule.html'
-  //     ]); // TODO: Load asset for offline mode
-  //   }).then(function() {
-  //     console.log('WORKER: install completed');
-  //   })
-  // );
+  event.waitUntil(precacheController.install());
 });
 
 self.addEventListener("fetch", function(event){
@@ -55,47 +41,13 @@ self.addEventListener("fetch", function(event){
     console.log('WORKER: fetch event ignored.', event.request.method, event.request.url);
     return;
   }
-  console.log("woyy"+event.request);
-  event.respondWith(
-    caches.match(event.request).then(function(cached){
-      var networked = fetch(event.request).then(fetchedFromNetwork, unableToResolve).catch(unableToResolve);
-      console.log('WORKER: fetch event', cached ? '(cached)' : '(network)', event.request.url);
-      return cached || networked;
-
-      function fetchedFromNetwork(response) {
-        var cacheCopy = response.clone();
-        console.log('WORKER: fetch response from network.', event.request.url);
-        caches.open(currentCaches + 'pages').then(function add(cache){
-          cache.put(event.request, cacheCopy);
-        }).then(function() {
-          console.log('WORKER: fetch response stored in cache.', event.request.url);
-        });
-        return response;
-      }
-      
-      function unableToResolve () {
-        console.log('WORKER: fetch request failed in both cache and network.');
-      }
-    })
-  );
+  
+  event.respondWith(caches.match(event.request).then());
 });
 
 self.addEventListener("activate", function(event) {
   console.log('WORKER: activate event in progress.');
-
-  event.waitUntil(
-    caches.keys().then(function (keys) {
-        return Promise.all(
-          keys.filter(function (key) {
-              return !key.startsWith(version);
-            }).map(function (key) {
-              return caches.delete(key);
-            })
-        );
-      }).then(function() {
-        console.log('WORKER: activate completed.');
-      })
-  );
+  event.waitUntil(precacheController.activate({plugins}));
 });
 
 self.addEventListener("message", function(event) {
