@@ -8,24 +8,24 @@ let plugins = [];
 const precacheController = new workbox.precaching.PrecacheController();
 
 precacheController.addToCacheList([
-  '/js/jquery.min.js',
-  '/js/materialize.min.js',
-  '/js/app.js',
-  '/js/index.js',
-  '/css/materialize.min.css',
-  '/css/styles.css',
+  'https://renaldi2108.github.io/pwarenaldi.github.io//js/jquery.min.js',
+  'https://renaldi2108.github.io/pwarenaldi.github.io//js/materialize.min.js',
+  'https://renaldi2108.github.io/pwarenaldi.github.io//js/app.js',
+  'https://renaldi2108.github.io/pwarenaldi.github.io//js/index.js',
+  'https://renaldi2108.github.io/pwarenaldi.github.io//css/materialize.min.css',
+  'https://renaldi2108.github.io/pwarenaldi.github.io//css/styles.css',
 ]);
 
 precacheController.addToCacheList([
   {
-    url: 'index.html',
+    url: 'https://renaldi2108.github.io/pwarenaldi.github.io/index.html',
     revision: 'abcd',
   }, {
-    url: 'schedule.html',
+    url: 'https://renaldi2108.github.io/pwarenaldi.github.io/schedule.html',
     revision: '1234',
   },
   {
-    url: 'offlineschedule.html',
+    url: 'https://renaldi2108.github.io/pwarenaldi.github.io/offlineschedule.html',
     revision: 'qwer',
   }
 ]);
