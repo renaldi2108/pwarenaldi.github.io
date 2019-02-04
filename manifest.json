@@ -1,18 +1,18 @@
 {
   "name": "Learn PWA",
   "short_name": "Learn PWA",
-  "start_url": "/",
+  "start_url": "https://renaldi2108.github.io/pwarenaldi.github.io",
   "display": "standalone",
   "theme_color": "#4caf50",
   "gcm_sender_id": "923560539923",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "https://renaldi2108.github.io/pwarenaldi.github.io/icon-192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/icon-512.png",
+      "src": "https://renaldi2108.github.io/pwarenaldi.github.io/icon-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }

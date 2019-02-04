@@ -5,57 +5,41 @@ const version = 1;
 const currentCaches = 'learningpwa-v'+version;
 let plugins = [];
 
-const precacheController = new workbox.precaching.PrecacheController();
-
-precacheController.addToCacheList([
-  'https://renaldi2108.github.io/pwarenaldi.github.io/js/jquery.min.js',
-  'https://renaldi2108.github.io/pwarenaldi.github.io/js/materialize.min.js',
-  'https://renaldi2108.github.io/pwarenaldi.github.io/js/app.js',
-  'https://renaldi2108.github.io/pwarenaldi.github.io/js/index.js',
-  'https://renaldi2108.github.io/pwarenaldi.github.io/js/sw-controller.js',
-  'https://renaldi2108.github.io/pwarenaldi.github.io/js/idb.js',
-  'https://renaldi2108.github.io/pwarenaldi.github.io/js/notify-updates.js',
-  'https://renaldi2108.github.io/pwarenaldi.github.io/css/materialize.min.css',
-  'https://renaldi2108.github.io/pwarenaldi.github.io/css/styles.css',
-  'https://renaldi2108.github.io/pwarenaldi.github.io/favicon.ico'
+workbox.precaching.precache([
+  'offlineschedule.html',
+  'schedule.html',
+  'index.html'
 ]);
 
-precacheController.addToCacheList([
-  {
-    url: 'https://renaldi2108.github.io/pwarenaldi.github.io/',
-    revision: 'asdf',
-  },
-  {
-    url: 'https://renaldi2108.github.io/pwarenaldi.github.io/index.html',
-    revision: 'abcd',
-  }, {
-    url: 'https://renaldi2108.github.io/pwarenaldi.github.io/schedule.html',
-    revision: '1234',
-  },
-  {
-    url: 'https://renaldi2108.github.io/pwarenaldi.github.io/offlineschedule.html',
-    revision: 'qwer',
-  }
-]);
+// Add Precache Route
+workbox.precaching.addRoute();
 
-self.addEventListener("install", function(event){
-  console.log("install event in progress");
-  event.waitUntil(precacheController.install());
-});
+workbox.routing.registerRoute(
+  /\.(?:png|jpg|jpeg|js|css|json|woff|woff2|ico)$/,
+  workbox.strategies.cacheFirst()
+);
 
-self.addEventListener("fetch", function(event){
-  console.log('WORKER: fetch event in progress.');
-  if (event.request.method !== 'GET') {
-    console.log('WORKER: fetch event ignored.', event.request.method, event.request.url);
-    return;
-  }
-  
-  event.respondWith(caches.match(event.request).then());
-});
+workbox.routing.registerRoute(
+  new RegExp('https://api.football-data.org/v2/(.*)'),
+  workbox.strategies.cacheFirst()
+);
 
 self.addEventListener("activate", function(event) {
   console.log('WORKER: activate event in progress.');
-  event.waitUntil(precacheController.activate({plugins}));
+
+  event.waitUntil(
+    caches.keys().then(function (keys) {
+        return Promise.all(
+          keys.filter(function (key) {
+              return !key.startsWith(version);
+            }).map(function (key) {
+              return caches.delete(key);
+            })
+        );
+      }).then(function() {
+        console.log('WORKER: activate completed.');
+      })
+  );
 });
 
 self.addEventListener("message", function(event) {
@@ -73,7 +57,7 @@ self.addEventListener('push', function(event) {
   }
   var options = {
     body: body,
-    icon: 'https://renaldi2108.github.io/pwarenaldi.github.io/icon-192.png',
+    icon: 'icon-192.png',
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
