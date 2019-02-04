@@ -8,12 +8,12 @@ let plugins = [];
 const precacheController = new workbox.precaching.PrecacheController();
 
 precacheController.addToCacheList([
-  'https://renaldi2108.github.io/pwarenaldi.github.io//js/jquery.min.js',
-  'https://renaldi2108.github.io/pwarenaldi.github.io//js/materialize.min.js',
-  'https://renaldi2108.github.io/pwarenaldi.github.io//js/app.js',
-  'https://renaldi2108.github.io/pwarenaldi.github.io//js/index.js',
-  'https://renaldi2108.github.io/pwarenaldi.github.io//css/materialize.min.css',
-  'https://renaldi2108.github.io/pwarenaldi.github.io//css/styles.css',
+  'https://renaldi2108.github.io/pwarenaldi.github.io/js/jquery.min.js',
+  'https://renaldi2108.github.io/pwarenaldi.github.io/js/materialize.min.js',
+  'https://renaldi2108.github.io/pwarenaldi.github.io/js/app.js',
+  'https://renaldi2108.github.io/pwarenaldi.github.io/js/index.js',
+  'https://renaldi2108.github.io/pwarenaldi.github.io/css/materialize.min.css',
+  'https://renaldi2108.github.io/pwarenaldi.github.io/css/styles.css',
 ]);
 
 precacheController.addToCacheList([
