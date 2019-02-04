@@ -12,8 +12,12 @@ precacheController.addToCacheList([
   'https://renaldi2108.github.io/pwarenaldi.github.io/js/materialize.min.js',
   'https://renaldi2108.github.io/pwarenaldi.github.io/js/app.js',
   'https://renaldi2108.github.io/pwarenaldi.github.io/js/index.js',
+  'https://renaldi2108.github.io/pwarenaldi.github.io/js/sw-controller.js',
+  'https://renaldi2108.github.io/pwarenaldi.github.io/js/idb.js',
+  'https://renaldi2108.github.io/pwarenaldi.github.io/js/notify-updates.js',
   'https://renaldi2108.github.io/pwarenaldi.github.io/css/materialize.min.css',
   'https://renaldi2108.github.io/pwarenaldi.github.io/css/styles.css',
+  'https://renaldi2108.github.io/pwarenaldi.github.io/favicon.ico'
 ]);
 
 precacheController.addToCacheList([
