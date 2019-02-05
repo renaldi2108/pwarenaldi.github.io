@@ -11,7 +11,7 @@ SW.prototype.registerSW = function() {
 
   const that = this;
 
-  navigator.serviceWorker.register('https://renaldi2108.github.io/pwarenaldi.github.io/sw.js')
+  navigator.serviceWorker.register('/sw.js')
     .then(function(reg) {
       console.info('SW is registered.');
 

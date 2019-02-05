@@ -5,11 +5,16 @@ const version = 1;
 const currentCaches = 'learningpwa-v'+version;
 let plugins = [];
 
-workbox.precaching.precache([
-  'offlineschedule.html',
-  'schedule.html',
-  'index.html'
-]);
+workbox.precaching.precacheAndRoute(
+  [
+    { url: '/schedule.html', revision: currentCaches },
+    { url: '/offlineschedule.html', revision: currentCaches },
+    { url: '/index.html', revision: currentCaches },
+  ],
+  {
+    ignoreUrlParametersMatching: [/.*/]
+  }
+);
 
 // Add Precache Route
 workbox.precaching.addRoute();
