@@ -7,9 +7,9 @@ let plugins = [];
 
 workbox.precaching.precacheAndRoute(
   [
-    { url: '/schedule.html', revision: currentCaches },
-    { url: '/offlineschedule.html', revision: currentCaches },
-    { url: '/index.html', revision: currentCaches },
+    { url: 'https://renaldi2108.github.io/pwarenaldi.github.io/schedule.html', revision: currentCaches },
+    { url: 'https://renaldi2108.github.io/pwarenaldi.github.io/offlineschedule.html', revision: currentCaches },
+    { url: 'https://renaldi2108.github.io/pwarenaldi.github.io/index.html', revision: currentCaches },
   ],
   {
     ignoreUrlParametersMatching: [/.*/]
